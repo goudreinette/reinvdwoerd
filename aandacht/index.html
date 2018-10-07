@@ -29,6 +29,7 @@
 </style>
 
 <script>
+    var touchTimer = 0
     
     var sounds = [
         (new Audio("./aandacht.wav")),
@@ -41,20 +42,25 @@
     $('svg').mousemove(function(argument) {
         $('#ohja')[0].play()
         $('#ohja')[0].volume = Math.min($('#ohja')[0].volume  + 0.01, 1)
+        touchTimer = 0
     })
 
 
     setInterval(function (argument) {
         $('#ohja')[0].volume = Math.max($('#ohja')[0].volume  - 0.05, 0)
+        touchTimer += 100
     }, 100)
 
 
   
 
     function aandacht() {
-        // new Notification("Aandacht!", { body: '', icon: "/aandacht/aandacht.png" });
-        // _.sample(sounds).play()
-        // setTimeout(aandacht, Math.max(Math.random() * 1000 * 20, 3))
+        if (touchTimer > 5000) {
+             new Notification("Aandacht!", { body: '', icon: "/aandacht/aandacht.png" });
+            _.sample(sounds).play()
+        }
+         setTimeout(aandacht, Math.max(Math.random() * 1000 * 20, 3))  
+
     }
 
     if (Notification.permission === "granted") {
