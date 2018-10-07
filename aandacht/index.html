@@ -2,6 +2,16 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
 
+    
+    <audio id="ohja" src="./ohja.wav" volume="0" loop=""></audio>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+
 <style>
     body {
         display: flex;
@@ -19,37 +29,32 @@
 </style>
 
 <script>
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
-        console.log('Service Worker and Push is supported');
-
-        navigator.serviceWorker.register('sw.js')
-            .then(function(swReg) {
-                console.log('Service Worker is registered', swReg);
-
-                swRegistration = swReg;
-            })
-            .catch(function(error) {
-                console.error('Service Worker Error', error);
-            });
-    } else {
-        console.warn('Push messaging is not supported');
-        pushButton.textContent = 'Push Not Supported';
-    }
-
-
+    
     var sounds = [
         (new Audio("./aandacht.wav")),
         (new Audio("./aandacht 2.wav")),
         (new Audio("./aandacht 3.wav")),
         (new Audio("./aandacht 4.wav"))
     ]
+        $('#ohja')[0].volume = 0
+
+    $('svg').mousemove(function(argument) {
+        $('#ohja')[0].play()
+        $('#ohja')[0].volume = Math.min($('#ohja')[0].volume  + 0.01, 1)
+    })
+
+
+    setInterval(function (argument) {
+        $('#ohja')[0].volume = Math.max($('#ohja')[0].volume  - 0.05, 0)
+    }, 100)
+
+
+  
 
     function aandacht() {
-        new Notification("Aandacht!", { body: '', icon: "/aandacht/aandacht.png" });
-
-        _.sample(sounds).play()
-
-        setTimeout(aandacht, Math.max(Math.random() * 1000 * 20, 3))
+        // new Notification("Aandacht!", { body: '', icon: "/aandacht/aandacht.png" });
+        // _.sample(sounds).play()
+        // setTimeout(aandacht, Math.max(Math.random() * 1000 * 20, 3))
     }
 
     if (Notification.permission === "granted") {
@@ -64,6 +69,5 @@
             }
         });
     }
-
 
 </script>
