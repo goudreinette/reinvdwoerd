@@ -1,0 +1,55 @@
+<img class="revolver" src="revolver.svg" alt="">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+
+<link rel="stylesheet" href="bang.css">
+
+<script>
+    $(window).mousemove(function (e) {
+        $('.revolver').css({ position: 'absolute',
+                left: e.pageX, top: e.pageY
+            })
+    })
+
+    $(window).mousedown(function (e) {
+        var revolverRotation = $('.revolver').css('transform')
+
+        var bang = $(`<div class="bang" style="top: ${e.pageY}; left: ${e.pageX}; transform: ${revolverRotation}"><img class="bang" src="bang.gif" ></div>`)
+
+        setTimeout(() => bang.remove(), 400)
+        $(document.body).append(bang)
+    })
+</script>
+
+<style>
+    .revolver {
+        width: 30vw;
+        z-index: 10;
+        animation: aim 1s linear infinite alternate;
+    }
+    
+    * {
+        cursor: none;
+    }
+
+    .bang {
+        width: 50vw;
+        position: absolute;
+    }
+
+
+    .bang img {
+        position: relative;
+        mix-blend-mode: darken;
+        left: 20vw;
+        bottom: 3vw;
+    }
+
+    @keyframes aim {
+        from {
+            transform: rotateZ(-5deg);
+        }
+        to {
+            transform: rotateZ(5deg);
+        }
+    }
+</style>

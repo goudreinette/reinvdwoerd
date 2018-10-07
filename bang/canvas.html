@@ -1,0 +1,26 @@
+<canvas id="canvas"></canvas>
+
+<link rel="stylesheet" href="bang.css">
+
+<script>
+    var ctx = document.getElementById('canvas').getContext('2d');
+
+    function draw() {
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        var img = new Image();
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0);
+            // window.requestAnimationFrame(draw)
+        };
+        img.src = 'https://mdn.mozillademos.org/files/5395/backdrop.png';
+    }
+
+    setInterval(() => {
+        window.requestAnimationFrame(draw);
+
+    }, 1000)
+
+
+</script>
