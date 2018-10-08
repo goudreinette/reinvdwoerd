@@ -1,0 +1,79 @@
+<svg>
+  <defs>
+  		<pattern id="myPattern"
+           x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" >
+<!-- start pattern-->
+      		<circle cx="10" cy="10" r="7" style="stroke: none; fill: magenta" />
+<!-- end pattern -->
+  		</pattern>
+
+  		<pattern id="patternTwo"
+  			x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" >
+<!-- start pattern-->
+      		<circle cx="10" cy="10" r="7" style="stroke: none; fill: cyan" />
+<!-- end pattern -->
+  		</pattern>
+	</defs>
+	<rect cx="50" cy="50" r="50" style="stroke: #ccc; fill: url(#myPattern);" />
+	<rect id="two" cx="50" cy="50" r="50" style="stroke: #ccc; fill: url(#patternTwo);" />
+
+</svg>
+
+	<h1>
+		PastPresentFuture
+	</h1>
+
+<style>
+	body {
+		margin: 0;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	svg, svg rect {
+		width: 100vw;
+		height: 100vh;
+		mix-blend-mode: multiply;
+	}
+
+	#patternTwo circle {
+		animation: move .5s linear infinite alternate-reverse;
+	}
+
+	#myPattern circle {
+		animation: move .5s linear infinite alternate;
+	}
+
+	h1 {
+		position: fixed;
+		font-size: 100px;
+		mix-blend-mode: screen;
+		word-break: break-all;
+		margin: 0;
+		font-family: Advocate C63;
+		color: cyan;
+		/* font-weight: 900; */
+		text-transform: uppercase;
+		text-align: center;
+	}
+
+	@keyframes move {
+		50% {
+			cx: 15px;
+			cy: 15px;
+		}
+
+		75% {
+			cx: 5px;
+			cy: 15px;
+			transform: scale(1.5)
+		}
+
+		100% {
+			cx: 10px;
+			cy: 5px;
+		}
+	}
+</style>
