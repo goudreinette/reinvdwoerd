@@ -1,0 +1,199 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<div id="vis">
+    <audio
+            @ended="showPlayButton"
+            ref="audio"
+           volume="1"
+           autoplay src="./ludwig met intro.wav"></audio>
+
+    <div class="points">
+        <div class="point"
+             :class="v > 150 ? 'big' : v < 100 ? 'small' : null "
+             v-for="v in frequencyData.reverse()">
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+   background: blue; 
+  display: flex;
+}
+
+#vis {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    left: 0;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    color: black;
+    /* background: black; */
+    z-index: 2;
+    align-items: center;
+    mix-blend-mode: exclusion;
+    /* display: none !important; */
+}
+
+#vis .points {
+    display: flex;
+    flex-wrap: wrap;
+    /*height: 100vh;*/
+    font-family: 'Futura';
+    justify-content: center;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    /*transform: rotateZ(180deg);*/
+    /* position: absolute; */
+    color: white;
+
+}
+
+
+
+#vis .point.small {
+    opacity: 0.2;
+    transform: scale(.1);
+    font-style: normal;
+}
+
+#vis .point {
+    width: 50px;
+    justify-content: center;
+    height: 50px;
+    display: inline-flex;
+    font-size: 0.8em;
+    align-items: center;
+    transition: all .05s;
+    opacity: 0.6;
+    font-weight: 500;
+    background: white;
+    transform: scale(0.2);
+    /*border-radius: */
+
+}
+
+
+
+
+#vis .point.big {
+    /*opacity: 0.2;*/
+    /*font-weight: bold;*/
+    /*transform: scale(1.2);*/
+    opacity: 0.6;
+    font-style: normal;
+        transform: scale(1);
+
+}
+</style>
+
+<script>
+    window.$vis = new Vue({
+    el: '#vis',
+        data() {
+            return {
+                frequencyData: new Uint8Array(300),
+            }
+        },
+
+        mounted() {
+            this.audio = this.$refs.audio
+            var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            var audioSrc = audioCtx.createMediaElementSource(this.audio);
+            this.analyser = audioCtx.createAnalyser();
+
+            // Bind our analyser to the media element source.
+            audioSrc.connect(this.analyser);
+            audioSrc.connect(audioCtx.destination);
+
+            // this.audio.play()
+            this.update()
+        },
+
+        methods: {
+            showPlayButton () {
+                $('#ghost').removeClass('hidden')
+            },
+            update() {
+                    var data = new Uint8Array((window.innerHeight * window.innerWidth) / 1000)
+                    this.analyser.getByteFrequencyData(data);
+                    // console.log(this.frequencyData)
+                    this.frequencyData = data
+                    requestAnimationFrame(() => this.update())
+                }
+            }
+    })
+</script>
+
+<div class="bg"></div>
+
+<img src="./SVG/ppp.svg" alt="">
+
+<style>
+    body, .bg {
+        width: 100vw;
+        height: 100vh;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        transition: all 1s;
+    }
+
+    .bg {
+        background: url("patterns/1.svg");
+        background-repeat: repeat;
+        background-size: 100vh;
+        mix-blend-mode: unset;
+        margin: 0;
+        animation: pattern-move 5s linear infinite;
+        mix-blend-mode: overlay;
+    }
+
+
+    .bg2 {
+        background: url("patterns/1.svg");
+        background-repeat: repeat;
+        background-size: 100vh;
+        mix-blend-mode: unset;
+
+        margin: 0;
+        animation: pattern-move 5s reverse infinite;
+        mix-blend-mode: overlay;
+    }
+
+    body:hover {
+        background: #ffde17;
+    }
+
+    svg {
+        position: absolute;
+        font-family: "Eksell Display";
+        width: 50vw;
+        mix-blend-mode: normal;
+        margin: 0;
+        position: absolute;
+        mix-blend-mode: unset;
+        z-index: 10;
+    }
+
+    @keyframes pattern-move {
+        from {
+            background-position-y: 0;
+        }
+        to {
+            background-position-y: 100vh;
+        }
+    }
+
+    img {
+        width: 70vw;
+        height: 100vh;
+        position: absolute;
+        mix-blend-mode: difference;
+    }
+</style>
