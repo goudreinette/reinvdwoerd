@@ -11,14 +11,14 @@
     <div class="points">
         <div class="point"
              :class="v > 150 ? 'big' : v < 100 ? 'small' : null "
-             v-for="v in frequencyData">
+             v-for="v in frequencyData.reverse()">
         </div>
     </div>
 </div>
 
 <style>
     body {
-   background: green; 
+   background: blue; 
   display: flex;
 }
 
@@ -48,11 +48,11 @@
     /* right: 0; */
     /* left: 0; */
     align-items: flex-end;
-    flex-direction: row-reverse;
     position: ABSOLUTE;
-    transform: rotateZ(180deg);
+    /*transform: rotateZ(180deg);*/
     /* position: absolute; */
     color: white;
+
 }
 
 
@@ -64,10 +64,10 @@
 }
 
 #vis .point {
-    width: 50px;
+    width: 100px;
     justify-content: center;
-    height: 50px;
-    /* flex-grow: 1; */
+    height: 100px;
+    flex-grow: 1;
     display: inline-flex;
     font-size: 0.8em;
     align-items: center;

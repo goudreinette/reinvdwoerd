@@ -1,0 +1,113 @@
+
+<style>
+    
+    body {
+        --textcolor: #41332e;
+        display: grid;
+        grid-template-columns: auto minmax(max-content, 1000px) auto;
+        grid-template-rows: 100px auto;
+        color: var(--textcolor);
+        font-size: 140%;
+    }
+
+    header, main {
+        padding: 0 50px;
+    }
+
+    header {
+        grid-column: 2;
+        grid-row: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 50px;
+        font-family: AdvocateC63;
+        font-size: 18.75px;
+    }
+
+    .actions {
+        display: flex;
+    }
+
+    main {
+        grid-column: 2;
+        grid-row: 2;
+        margin: auto;
+        max-width: 400px;
+        margin-top: 100px;
+        font-family: NYTCheltenham-Medium;
+        /* font-size: 16.25px; */
+        color: var(--textcolor);
+        line-height: 1.5;
+    }
+
+
+    .strikeout {
+        background:var(--textcolor);
+        padding: 5px 0;
+    }
+
+</style>
+
+
+        <header> 
+                <div class=sculptext>sculptext</div>
+                <div class=actions>
+                    <div class="print">print</div>/
+                    <div class="new">new</div>
+                </div>
+            </header>
+            <main class=textcontainer>
+                <div class=twohouseholdsboth>Two households, both alike in dignity,<br />In fair Verona, where we lay our
+                scene,<br />From ancient grudge break to new mutiny,<br />Where civil blood makes civil hands unclean.<br />From
+                forth the fatal loins of these two foes<br />A pair of star-cross’d lovers take their life;<br />Whole
+                misadventured piteous overthrows<br />Do with their death bury their parents’ strife.<br />The fearful
+                passage of their death-mark’d love,<br />And the continuance of their parents’ rage,<br />Which, but their
+                children’s end, nought could remove,<br />Is now the two hours’ traffic of our stage;<br />The which if you
+                with patient ears attend,<br />What here shall miss, our toil shall strive to mend</div>
+                <div class=group>
+                <div class=rectangle></div>
+                <div class=rectangle1></div>
+                <div class=rectangle2></div>
+                <div class=rectangle3></div>
+                <div class=rectangle4></div>
+                <div class=rectangle5></div>
+                <div class=rectangle6></div>
+                <div class=rectangle7></div>
+                </div>
+            </div>
+            
+            
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+</script>
+
+<script>
+    $('.textcontainer').on("mouseup",function() {
+        var range = getSelection().getRangeAt(0);
+        var newNode = $('<span class="strikeout"></span>')[0]
+        range.surroundContents(newNode);
+        getSelection().empty()
+
+    });
+
+
+    $('.new').click(freshText);
+    freshText();
+   
+
+    function freshText() {
+        var items  = [
+            'republic',
+            'amendments',
+            'shakespeare',
+        ]
+        var item = items[Math.floor(Math.random()*items.length)];
+
+        $.get(`./texts/${item}`,  t => {
+            $('.textcontainer').empty().append(t)
+        })
+    }
+</script>

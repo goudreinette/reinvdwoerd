@@ -1,0 +1,113 @@
+<div class="svg-carousel">
+  <div class="item" 
+       v-show="i == 0"
+       v-for="(svg, i) in svgs" 
+       v-html="svg">
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<style>
+.svg-carousel {
+    --animation-duration: 7s;
+    width: 50vw !important;
+}
+
+
+
+/**
+    Portraits / Covers
+ */
+
+
+
+
+  svg text {
+    animation: text var(--animation-duration) alternate !important;
+}
+
+  svg path {
+    fill-opacity: 0;
+    stroke:black;
+    stroke-width: 2;
+    stroke-dasharray: 870;
+    stroke-dashoffset: 0;
+    opacity: 0;
+    animation: draw var(--animation-duration) alternate !important;
+  animation-iteration-count: 2;
+    /*animation-direction: reverse;*/
+}
+
+@keyframes text {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+
+@keyframes draw {
+    0% {
+        stroke-dashoffset: 870;
+      opacity: 0;
+    }
+  10% {
+       opacity: 1;
+
+  }
+    90% {
+        stroke-dashoffset: 0;
+    }
+  
+  100% {
+        stroke-dashoffset: 870;
+    opacity: 1;
+    }
+
+}
+
+
+
+</style>
+
+<script>
+$carousel = new Vue({
+  el: '.svg-carousel',
+  data: {
+    svgs: [],
+    svgLinks: [
+    './SVG/weval.svg',
+    './SVG/michel.svg',
+    './SVG/applescal.svg',
+
+    ],
+  },
+  mounted () {
+      for (var link of this.svgLinks) {
+          $.get(link, svg => this.svgs.push(svg), 'text') 
+      }
+
+      var duration = getComputedStyle($('.svg-carousel')[0]).getPropertyValue('--animation-duration');
+      var number = Number(duration.replace('s', ''))
+
+
+      setInterval(() => {
+        var first = this.svgs.shift();
+        this.svgs.push(first);
+      }, number * 1000);
+  }
+})
+</script>
