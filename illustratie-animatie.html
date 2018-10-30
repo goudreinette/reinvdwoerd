@@ -1,0 +1,71 @@
+<!-- Deps -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
+<script src=https://code.jquery.com/jquery-3.3.1.js></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" href="./illustratie-animatie.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+<body>
+
+    <div class="background-overlay">
+
+    </div>
+    <div class="wrapper">
+        <video src="./animation.mov" autoplay loop></video>
+    
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 390 300">
+                <symbol id="s-text">
+                <text text-anchor="start" x="0%" y="18%" dy=".35em">illustration</text>
+                <text text-anchor="start" x="0%" y="44%" dy=".35em">animation</text>
+                <text text-anchor="start" x="79%" y="44%" dy=".35em" class="smaller">S1'18</text>
+                <!-- <text text-anchor="start" x="0%" y="35%" dy=".35em">The Year in </text>
+                <text text-anchor="start" x="0%" y="62%" dy=".35em">Illustration</text> -->
+                </symbol>
+                <use class="text" xlink:href="#s-text"></use>
+                <use class="text" xlink:href="#s-text"></use>
+                <use class="text" xlink:href="#s-text"></use>
+                <use class="text" xlink:href="#s-text"></use>
+            </svg>
+            
+        <div class="column">
+       
+    
+            <h1>
+                Extremely Loud & Incredibly Close
+            </h1>                
+        </div>
+
+        <div class="wide">
+            <div class="grid">
+                <img src="./img/extremely-loud/yes.jpg">
+                <img src="./img/extremely-loud/hands.jpg">
+    
+            </div>
+        </div>
+       
+
+        <div class="column">
+                <h1>
+                    Daily Illustration Challenge
+                </h1>
+        </div>
+
+
+
+       
+    </div>
+ 
+</body>
+
+
+
+<script>
+  $(document).scroll(function () {
+        $(".background-overlay, body")
+            .toggleClass('overlay-visible', window.scrollY > 100)
+    })
+</script>
