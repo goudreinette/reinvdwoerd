@@ -142,9 +142,8 @@ h1 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100vw;
-    padding: 8px;
-    grid-gap: 5px;
-
+    padding: 15px;
+    grid-gap: 15px;
 }
 
 img {
@@ -193,5 +192,6 @@ iframe {
     grid-column: 1 / span 2;
     height: 500px;
     background: white;
+    overflow: hidden;
     width: 100%;/* padding-top: 50px; */
 }
