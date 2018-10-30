@@ -2,11 +2,11 @@
     Heading SVG
 */
 * {
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 }
 
 .overlay-visible svg .text {
-    fill-opacity: 1;
+    fill-opacity: 0.7;
 
 }
 
@@ -16,7 +16,7 @@ svg {
     /* position: relative;
     bottom: 10vh; */
     z-index: 2;
-    margin-bottom: 300px;
+    margin-bottom: 5vh;
 
   }
   
@@ -94,11 +94,12 @@ svg {
 
     .wrapper {
         padding-top: 30vh;
+        padding:;
     }
 
 
 video {
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 1;
     height: 100vh;
@@ -130,19 +131,25 @@ h1 {
     margin-bottom: 0;
 }
 
+.wide > * {
+    max-width: 1000px;
+
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     flex-wrap: wrap;
     width: 100vw;
+    padding: 8px;
     grid-gap: 5px;
-    padding: 25px;
-    max-width: 1000px;
 
 }
 
 img {
     width: 100%;
+    border: none;
+    height:;
     /* opacity: 0.5; */
 }
 
@@ -153,7 +160,7 @@ img {
     }
 
     svg {
-        width: 104vw;
+        width: 90vw;
     }
 }
 
@@ -166,7 +173,7 @@ Background-overlay
     position:  fixed;
     z-index: 2;
     mix-blend-mode:  multiply;
-    background: rgba(14, 20, 31, 0.75);
+    background: rgba(14, 20, 31, 0.99);
     width:  100vw;
     height: 200vh;
     left: 0;
@@ -177,4 +184,14 @@ Background-overlay
 .background-overlay:not(.overlay-visible) {
     opacity: 0;
     /* background: linear-gradient(transparent 40%, rgba(14, 20, 31, 0.85) 90%); */
+}
+
+/**
+iFrame
+**/
+iframe {
+    grid-column: 1 / span 2;
+    height: 500px;
+    background: white;
+    width: 100%;/* padding-top: 50px; */
 }

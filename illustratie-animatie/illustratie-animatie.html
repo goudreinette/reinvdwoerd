@@ -1,6 +1,6 @@
 <!-- Deps -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
-<script src=https://code.jquery.com/jquery-3.3.1.js></script>
+<script src="vue.js"></script>
+<script src="jquery.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <link rel="stylesheet" href="./illustratie-animatie.css">
@@ -43,15 +43,59 @@
             <div class="grid">
                 <img src="./img/extremely-loud/yes.jpg">
                 <img src="./img/extremely-loud/hands.jpg">
-    
+                <iframe src="./img/fine/index.html" frameborder="0" "></iframe> </iframe>
             </div>
         </div>
-       
+
+        <div class="wide">
+            <div class="grid">
+                <img src="./img/zwolle-white.svg" style="grid-column: 1 / span 2">    
+
+            </div>
+        </div>
 
         <div class="column">
                 <h1>
+                    Web
+                </h1>
+            </div>
+    
+            <div class="wide">
+                <div class="grid">
+                    <a href="https://reinvdwoerd.github.io/reinvdwoerd/aandacht">
+                        <img src="img/web/aandacht.png" >    
+                    </a>
+                    <a href="http://mindthegap.kseniaanohina.reinvanderwoerd.nl">
+                        <img src="img/web/mindthegap.png" >    
+                    </a>
+                    <a href="http://biekabox.reinvanderwoerd.nl/">
+                        <img src="img/web/biekabox.png" >                        
+                    </a>
+                </div>
+            </div>
+           
+
+        <div class="column">
+
+                <h1>
                     Daily Illustration Challenge
                 </h1>
+
+                <h1>
+                    Patterns
+                </h1>
+
+                <h1>
+                    Web side-projects
+                </h1>
+        </div>
+
+        <div class="wide">
+            <iframe style="height:100vw" src="../sweater/sweater.html" frameborder="0"></iframe>
+                <!-- <img src="img/web/aandacht.png" >    
+                <img src="img/web/aandacht.png" >    
+                <img src="img/web/aandacht.png" >     -->
+
         </div>
 
 
@@ -68,4 +112,5 @@
         $(".background-overlay, body")
             .toggleClass('overlay-visible', window.scrollY > 100)
     })
+
 </script>
