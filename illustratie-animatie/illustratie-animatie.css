@@ -80,6 +80,10 @@ svg {
   /**
     Body
   */
+  body {
+    perspective: 100px;
+}
+
   body, .wrapper {
       display: flex;
       background: #0e0e0e;
@@ -95,8 +99,7 @@ svg {
     }
 
     .wrapper {
-        padding-top: 30vh;
-        padding:;
+            padding-top: 30vh;
     }
 
 
@@ -108,7 +111,7 @@ video {
 }
 
 .column, .wide {
-    z-index: 2;
+    z-index: 10 !important;
 }
 
 .column {
@@ -142,8 +145,8 @@ h1 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100vw;
-    padding: 15px;
     grid-gap: 15px;
+    padding: 15px;
 }
 
 img {
@@ -151,6 +154,7 @@ img {
     border: none;
     /* opacity: 0.5; */
 }
+
 
 @media (max-width: 800px) {
     .grid {
@@ -170,7 +174,7 @@ Background-overlay
 **/
 .background-overlay {
     position:  fixed;
-    z-index: 2;
+    z-index: 1;
     mix-blend-mode:  multiply;
     background: rgba(14, 20, 31, 0.99);
     width:  100vw;
