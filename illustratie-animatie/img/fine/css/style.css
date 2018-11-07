@@ -5,6 +5,7 @@ body {
   height: 100vh;
   perspective: 300px;
   font-family: Eksell Display;
+  background: none;
 }
 
 .center {

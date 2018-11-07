@@ -49,7 +49,7 @@ svg {
             animation-fill-mode: forwards;
   }
   .text:nth-child(4n + 3) {
-    stroke: #bb1f2a;
+    stroke: #ab142e;
     -webkit-animation-delay: -6s;
     animation-delay: -6s;
     -webkit-animation-fill-mode: forwards;
@@ -82,6 +82,7 @@ svg {
   */
   body {
     perspective: 100px;
+    padding-bottom: 200px;
 }
 
   body, .wrapper {
@@ -126,14 +127,16 @@ video {
     width: 100vw;
     display: flex;
     flex-direction: column;
+    background:;
     align-items: center;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
 }
 
 h1 {
-    text-transform: uppercase;
+    text-transform: unset;
     font-size: 1.5em;
     margin-bottom: 0;
+    margin-top: 10vh;
 }
 
 .wide > * {
@@ -156,7 +159,7 @@ img {
 }
 
 
-@media (max-width: 800px) {
+@media (max-width: 400px) {
     .grid {
         grid-template-columns: repeat(1, 1fr);
 
@@ -174,7 +177,7 @@ Background-overlay
 **/
 .background-overlay {
     position:  fixed;
-    z-index: 1;
+    z-index: 2;
     mix-blend-mode:  multiply;
     background: rgba(14, 20, 31, 0.99);
     width:  100vw;
@@ -194,8 +197,29 @@ iFrame
 **/
 iframe {
     grid-column: 1 / span 2;
-    height: 500px;
+    height: 50vh;
     background: white;
     overflow: hidden;
-    width: 100%;/* padding-top: 50px; */
+    width: 100%;
+    mix-blend-mode: color-burn;
+    /* padding-top: 50px; */
+}
+
+#daily-illustration {
+    display: flex;
+    overflow: auto;
+    flex-direction: row;
+    height: 70vh;
+    background: white;
+    scroll-snap-type: x mandatory;
+    /* margin-bottom: 100px; */
+    z-index: 100000000000 !important;
+    -webkit-overflow-scrolling: touch; 
+}
+
+
+#daily-illustration img {
+    width: auto;
+    height: 100%;
+    scroll-snap-align: start;
 }

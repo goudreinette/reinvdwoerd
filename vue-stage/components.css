@@ -1,0 +1,18 @@
+.stage {
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.scene {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+}
+
+.scene-0-enter-active, .scene-0-leave-active {
+  transition: opacity .5s;
+}
+.scene-0-enter, .scene-0-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}

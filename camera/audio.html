@@ -1,0 +1,109 @@
+
+<body>
+
+          <svg preserveAspectRatio="none" id="visualizer" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <defs>
+
+                <mask id="mask">
+                    <g id="maskGroup">
+                  </g>
+                </mask>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ff0a0a;stop-opacity:1" />
+                    <stop offset="20%" style="stop-color:#f1ff0a;stop-opacity:1" />
+                    <stop offset="90%" style="stop-color:#d923b9;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#050d61;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#gradient)" mask="url(#mask)"></rect>
+        </svg>
+
+<h1>In <a href="https://codepen.io/zapplebee/full/gbNbZE/">Full Page view</a>, please allow the use of your microphone</h1>
+  
+  
+
+    <script  src="./index.js"></script>
+
+<video autoplay></video>
+
+
+<script>
+    const constraints = {
+  video: true
+};
+
+const v = document.querySelector('video');
+
+navigator.mediaDevices.getUserMedia(constraints).
+then((stream) => {v.srcObject = stream});
+
+</script>
+
+</body>
+
+<style>
+
+    video {
+        height: 100vh;
+        mix-blend-mode: difference;
+        animation: hueshift 10s infinite;
+        filter:  contrast(100) grayscale(100);
+
+    }
+
+    svg {
+        animation: hueshift 25s infinite;
+
+    }
+
+
+    @keyframes hueshit {
+        to {
+            filter:  hue-rotate(360deg) contrast(100) ;
+        }
+    }
+
+html, body{
+width: 100%;
+height: 100%;
+padding: 0;
+margin: 0;
+background-color:#222;
+font-size: 0;
+}
+
+svg{
+display: block;
+width: 100%;
+height: 100%;
+padding: 0;
+margin: 0;
+position:absolute;
+
+}
+
+h1{
+width: 100%;
+font-family: sans-serif;
+position:absolute;
+text-align:center;
+color:white;
+font-size: 18px;
+top: 40%;
+opacity: 1;
+transition: opacity 1s ease-in-out;
+-moz-transition: opacity 1s ease-in-out;
+-webkit-transition: opacity 1s ease-in-out;
+}
+
+h1 a{
+  color: #48b1f4;
+  text-decoration:none;
+}
+
+path{
+stroke-linecap: square;
+stroke: white;
+stroke-width: 3px;
+}
+</style>
