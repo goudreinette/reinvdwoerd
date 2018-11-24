@@ -1,0 +1,130 @@
+
+<body>
+
+          <svg preserveAspectRatio="none" id="visualizer" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <defs>
+
+                <mask id="mask">
+                    <g id="maskGroup">
+                  </g>
+                </mask>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    ¡¡<stop offset="0%" style="stop-color:#4f312b;stop-opacity:1" />
+                    <stop offset="20%" style="stop-color:#6e2727;stop-opacity:1" />
+                    <stop offset="90%" style="stop-color:#3c2921;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#4e473b;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#gradient)" mask="url(#mask)"></rect>
+        </svg>
+
+<h1>In <a href="https://codepen.io/zapplebee/full/gbNbZE/">Full Page view</a>, please allow the use of your microphone</h1>
+  
+  
+
+    <script  src="./index.js"></script>
+
+          <video id="webcam" autoplay></video>
+          <video id="berlin" src="vids/berlin_1900_in_colour_B-m9A8mY-U0_360p.mp4" autoplay muted></video>
+          <video muted id="teletubbies" src="y2mate.com%20-%20teletubbies_new_episode_2x05_honk_honk_gUmoJ-kTDHs_360p.mp4" autoplay ></video>
+
+
+<script>
+    const constraints = {
+  video: true
+};
+
+const v = document.querySelector('video');
+
+// navigator.mediaDevices.getUserMedia(constraints).
+// then((stream) => {v.srcObject = stream});
+
+</script>
+
+</body>
+
+<style>
+    #berlin {
+    }
+    video {
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        image-rendering: pixelated;
+        /* z-index: 1000000; */
+    }
+
+    #berlin {
+        mix-blend-mode: difference;
+        animation: hueshift 10s infinite;
+        filter:  contrast(100) grayscale(100);
+        z-index: 1;
+
+
+
+    }
+
+    #teletubbies {
+        opacity: 0.5;
+        filter: sepia(50%);
+        transform: rotateZ(180deg);
+    }
+
+
+    svg {
+        animation: hueshift 25s infinite;
+        z-index: 2;
+        mix-blend-mode: difference;
+    }
+
+
+    @keyframes hueshit {
+        to {
+            filter:  hue-rotate(360deg) contrast(100) ;
+        }
+    }
+
+html, body{
+width: 100%;
+height: 100%;
+padding: 0;
+margin: 0;
+background-color:#222;
+font-size: 0;
+}
+
+svg{
+display: block;
+width: 100%;
+height: 100%;
+padding: 0;
+margin: 0;
+position:absolute;
+
+}
+
+h1{
+width: 100%;
+font-family: sans-serif;
+position:absolute;
+text-align:center;
+color:white;
+font-size: 18px;
+top: 40%;
+opacity: 1;
+transition: opacity 1s ease-in-out;
+-moz-transition: opacity 1s ease-in-out;
+-webkit-transition: opacity 1s ease-in-out;
+}
+
+h1 a{
+  color: #48b1f4;
+  text-decoration:none;
+}
+
+path{
+stroke-linecap: square;
+stroke: white;
+stroke-width: 3px;
+}
+</style>

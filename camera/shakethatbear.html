@@ -1,0 +1,58 @@
+
+<body>
+
+          <video id="bearvid" src="vids/shake%20that%20bear.mp4" autoplay loop></video>
+          <!--<video id="bassie" src="vids/y2mate.com%20-%20bassie_adriaan_vier_seizoenen_heeft_een_jaar_oID6nihRm84_360p.mp4" autoplay muted></video>-->
+          <iframe src="./vis-glitch-sint.html" frameborder="0" width=""></iframe>
+
+                <div class="layer"></div>
+          <script>
+    const constraints = {
+  video: true
+};
+
+const v = document.querySelector('video');
+
+// navigator.mediaDevices.getUserMedia(constraints).
+// then((stream) => {v.srcObject = stream});
+
+</script>
+
+</body>
+
+<style>
+
+    .layer, body, iframe{
+        height: 100vh;
+        width: 100vw;
+        background: #970A16;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    iframe {
+        /*opacity: 0.2;*/
+    /*background: none;*/
+    }
+
+    video {
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        /* image-rendering: pixelated; */
+        /* z-index: 1000000; */
+        background: none !important;
+
+        background-blend-mode: normal;
+        filter:  contrast(100) grayscale(100);
+        z-index: 2;
+        transform: scale(1.1);
+        mix-blend-mode: lighten;
+        rendering: pixelated;
+    }
+
+
+
+</style>

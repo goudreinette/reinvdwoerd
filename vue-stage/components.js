@@ -1,6 +1,7 @@
 /**
  * Components
  */
+
 Vue.component('stage', {
     data: () => ({
         currentSceneIndex: 0

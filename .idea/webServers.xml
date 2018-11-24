@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="258e84a4-ad95-42ba-b93f-5cbe22cc5720" name="biekabox" url="http://ftp.reinvanderwoerd.nl">
+        <fileTransfer host="ftp.reinvanderwoerd.nl" port="21" rootFolder="/domains/reinvanderwoerd.nl/public_html/biekabox">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

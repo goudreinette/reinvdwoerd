@@ -1,0 +1,150 @@
+
+<body>
+
+          <video id="webcam" autoplay></video>
+          <video id="berlin" src="vids/berlin_1900_in_colour_B-m9A8mY-U0_360p.mp4" autoplay muted></video>
+          <video id="tubbies" src="vids/y2mate.com%20-%20teletubbies_new_episode_2x05_honk_honk_gUmoJ-kTDHs_360p.mp4" autoplay muted></video>
+          <video id="tubbies2" src="vids/y2mate.com%20-%20teletubbies_new_episode_2x05_honk_honk_gUmoJ-kTDHs_360p.mp4" autoplay muted></video>
+          <iframe src="./vis-glitch.html" frameborder="0" width=""></iframe>
+
+
+          <script>
+    const constraints = {
+  video: true
+};
+
+const v = document.querySelector('video');
+
+// navigator.mediaDevices.getUserMedia(constraints).
+// then((stream) => {v.srcObject = stream});
+
+</script>
+
+</body>
+
+<style>
+
+    iframe {
+        height: 100vh;
+        width: 100vw;
+    }
+    video, .mask {
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        image-rendering: pixelated;
+        /* z-index: 1000000; */
+    }
+
+    #berlin {
+        mix-blend-mode: difference;
+        filter:  contrast(99) grayscale(100);
+        z-index: 1;
+        mask-image: url(#my-svg-mask);
+        -webkit-mask-image: url(#my-svg-mask);
+        transform: scale(1.5);
+        image-rendering: pixelated;
+    }
+
+    #tubbies, #tubbies2{
+        transform: scale(2);
+        filter:  contrast(99) grayscale(100);
+        mix-blend-mode: color-dodge;
+    }
+
+    #tubbies2 {
+        transform: rotateZ(180deg);
+        mix-blend-mode: color-burn;
+
+
+    }
+
+    .mask {
+        animation: rotate-mask 10s infinite;
+        background: linear-gradient(0deg, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 50%);
+        z-index: 2;
+
+    }
+    @keyframes rotate-mask {
+        from {
+            transform: rotateZ(0deg);
+
+        }
+        to {
+            transform: rotateZ(360deg);
+        }
+    }
+
+    /*body {*/
+        /*background: linear-gradient(270deg, #834529, #f32812, #202020);*/
+        /*background-size: 600% 600%;*/
+        /*animation: background 30s ease infinite;*/
+    /*}*/
+    /*@keyframes background {*/
+        /*0%{background-position:0% 50%}*/
+        /*50%{background-position:100% 50%}*/
+        /*100%{background-position:0% 50%}*/
+    /*}*/
+body {
+    background-size: 400% 400%;
+    animation: Gradient 30s ease infinite alternate;
+}
+
+
+    @keyframes Gradient {
+
+        0% {
+            background: wheat;
+        }
+        100% {
+            background: indianred;
+        }
+    }
+
+
+html, body{
+width: 100%;
+height: 100%;
+padding: 0;
+margin: 0;
+background-color:#222;
+font-size: 0;
+}
+
+svg{
+display: block;
+width: 100%;
+height: 100%;
+padding: 0;
+margin: 0;
+position:absolute;
+
+}
+
+h1{
+width: 100%;
+font-family: sans-serif;
+position:absolute;
+text-align:center;
+color:white;
+font-size: 18px;
+top: 40%;
+opacity: 1;
+transition: opacity 1s ease-in-out;
+-moz-transition: opacity 1s ease-in-out;
+-webkit-transition: opacity 1s ease-in-out;
+}
+
+h1 a{
+  color: #48b1f4;
+  text-decoration:none;
+}
+
+path{
+stroke-linecap: square;
+stroke: white;
+stroke-width: 3px;
+}
+</style>

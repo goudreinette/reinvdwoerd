@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="experiments">
+  <component name="PublishConfigData">
     <serverData>
+      <paths name="biekabox">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$/jukebox" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="experiments">
         <serverdata>
           <mappings>
