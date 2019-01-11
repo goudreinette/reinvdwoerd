@@ -1,0 +1,37 @@
+<script src="./libs/aframe.min.js"></script>
+<script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+<script src="./libs/jquery.min.js"></script>
+<script src="./libs/lodash.min.js"></script>
+<link rel="stylesheet" href="./aframe-generator.css">
+
+<a-scene vr-mode-ui="enabled: false"  embedded arjs>
+    <a-sky color="#334371"></a-sky>
+
+    <a-marker-camera preset='hiro'>
+    <!--<a-marker-camera type='pattern' url='assets/pattern-marker.patt'>-->
+
+        <a-box position="0 0.5 -5" color="white" material="opacity: 0.9"></a-box>
+
+        <a-plane
+                height="100"
+                width="100"
+                rotation="-90 0 0"
+                color="white"
+                material="opacity: 0.1"
+        ></a-plane>
+
+        <a-plane
+                height="100"
+                width="100"
+                rotation="-90 0 0"
+                color="white"
+                material="src: ./assets/Locator_Grid.png; repeat: 55 55; opacity: 0.3"
+        ></a-plane>
+    </a-marker-camera>
+</a-scene>
+
+<div class="title">
+    Random papershit #2.5
+</div>
+
+<script src="aframe-generator.js"></script>

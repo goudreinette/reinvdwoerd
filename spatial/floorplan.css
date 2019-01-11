@@ -1,0 +1,19 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+svg {
+    margin-top: 100px;
+    width: 400px;
+    height: 400px;
+    background-color: #eee;
+    padding: 25px;
+}
+
+.plane, .glueing-edge  {
+    fill: #fefefe !important;
+    stroke-width: 1px;
+    stroke: lightgrey;
+}
+
