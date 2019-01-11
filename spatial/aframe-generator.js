@@ -24,7 +24,8 @@ function addBox() {
     $('a-scene').append(`
         <a-box 
             position="${x} ${y} ${z}" 
-            scale="${sX} ${sY} ${sZ}"
+            width="0.5"
+            height="0.5"
             color="white"
             material="opacity: 0.95"
         ></a-box>
