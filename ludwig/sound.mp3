@@ -1,5 +1,0 @@
-vis.html?_ijt=lvlvc3qu7lql4606nlpiupbd6:14 The Web Audio autoplay policy will be re-enabled in Chrome 70 (October 2018). Please check that your website is compatible with it. https://goo.gl/7K7WLu
-(anonymous) @ vis.html?_ijt=lvlvc3qu7lql4606nlpiupbd6:14
-audioElement.play()
-Promise {<pending>}
-vis.html?_ijt=lvlvc3qu7lql4606nlpiupbd6:1 MediaElementAudioSource outputs zeroes due to CORS access restrictions for http://ludwig.vdwoerd.com/wp-content/uploads/2018/10/promo-adam.mp3

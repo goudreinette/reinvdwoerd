@@ -2,7 +2,12 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bithappy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bitmeggle" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/blog" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/caltrack" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/jukebox" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/jukebox/biekabox" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/voetafdruk" vcs="Git" />
   </component>
 </project>
