@@ -1,0 +1,178 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+    <div class="grid"></div>
+</body>
+
+
+<style>
+    * {
+        font-family: "Avenir Next";
+    }
+
+    body {
+        background-color: #EEEEF3;
+    }
+
+    body, .grid {
+        width: 10000px;
+        height: 10000px;
+    }
+
+    .grid {
+        background: url(grid.png) repeat;
+        background-size: 200px;
+        opacity: 0.5;
+    }
+
+    .node {
+        position: absolute;
+        background: white;
+        padding: 25px;
+        font-size: 20px;
+        border-radius: 10px;
+        box-shadow: none;
+        border: none;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stretchy/1.1.0/stretchy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.2.9/interact.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pressure/2.1.2/pressure.min.js"></script>
+<script>
+
+
+    /**
+     * Restore, scroll to middle
+     */
+    $(() => {
+        let scroll = localStorage.getItem('scroll')
+        let {top, left} = scroll
+        $(window).scrollTop(top) // || ($('body').height() / 2) - innerHeight / 2)
+        $(window).scrollLeft(left) //|| ($('body').width() / 2) - innerWidth / 2)
+        $('body').append(localStorage.getItem('nodes'))
+    })
+
+
+    $(window).scroll(() => {
+        // console.log($(window).scrollTop())
+
+    })
+
+
+
+    /**
+     * Key input shit
+     */
+    $(window).keydown((e) => {
+        if (e.key == 'Escape' || e.key == 'Enter')
+            $('input:focus').blur()
+        if (e.key == 'Backspace')
+            $('input:focus').remove()
+        if (e.ctrlKey)
+            if ($('input:focus')[0])
+                $('body').attr('state', 'connecting')
+    })
+
+
+
+    /**
+     * Click to blur
+     */
+    $('body').click((e) => {
+        if (e.target == document.body)
+            $(document.activeElement).blur()
+    })
+
+
+
+    /**
+     * Apply move offset
+     */
+    $(document).on('mouseup', '.node', ({target}) => {
+        let top = target.offsetTop + (parseFloat(target.getAttribute('data-y')) || 0) - 2
+        let left =  target.offsetLeft + (parseFloat(target.getAttribute('data-x')) || 0)
+
+        $(target).css({
+            top, left, transform: `translate(0px,0px)`
+        })
+        target.removeAttribute('data-x')
+        target.removeAttribute('data-y')
+    })
+
+
+
+    /**
+     * Update value attribute to make restoring possible
+     */
+    $(document).on('change', '.node', ({target}) => {
+        $(target).attr('value', target.value)
+    })
+
+
+    interact('.node').draggable({
+        // enable inertial throwing
+        inertia: true,
+        // keep the element within the area of it's parent
+        restrict: {
+            restriction: "parent",
+            endOnly: true,
+            elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+        },
+        // enable autoScroll
+        autoScroll: true,
+        onmove: dragMoveListener,
+        onstart(event) {
+            console.log('start')
+        },
+        onend(event) {
+
+        }
+    });
+
+    function dragMoveListener(event) {
+        var target = event.target,
+            // keep the dragged position in the data-x/data-y attributes
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+        // translate the element
+        target.style.webkitTransform =
+            target.style.transform =
+                'translate(' + x + 'px, ' + y + 'px)';
+
+        // update the posiion attributes
+        target.setAttribute('data-x', x);
+        target.setAttribute('data-y', y);
+    }
+
+    // this is used later in the resizing and gesture demos
+    window.dragMoveListener = dragMoveListener;
+
+
+
+    /**
+     * Deep-press to create a node
+     */
+    Pressure.set('body', {
+        startDeepPress (e) {
+            $('<input class="node">').appendTo('body')
+                .css({top: e.offsetY - 20, left: e.offsetX - 20})
+                .focus()
+        }
+    });
+
+
+    /**
+     * Localstorage save on change
+     */
+    var observer = new MutationObserver(() => {
+        console.log('change')
+        localStorage.setItem('nodes', $('.node').get().map(n => n.outerHTML).join())
+        localStorage.setItem('scroll', JSON.stringify({top: $(window).scrollTop(), left: $(window).scrollLeft()}))
+    });
+    var config = { attributes: true, childList: true, subtree: true };
+    // Start observing the target node for configured mutations
+    observer.observe(document.body, config);
+</script>
