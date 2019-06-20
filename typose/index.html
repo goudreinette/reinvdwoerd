@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PoseNet - Camera Feed Demo</title>
+    <style>.footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        color: black;
+    }
+
+    .footer-text {
+        max-width: 600px;
+        text-align: center;
+        margin: auto;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .footer-text, .dg {
+        display: none;
+      }
+    }</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div id="info" style="display:none">
+    </div>
+    <div id="loading">
+        Loading the model...
+    </div>
+
+    <div id="main" style="display:none">
+        <video id="video" playsinline="" style=" -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        display: none;
+        ">
+        </video>
+        <canvas id="output">
+    </canvas></div>
+
+    <script src="./camera.283d5d54.js"></script>
+    <div id="bar"></div>
+    <!-- <h1>Compressa</h1> -->
+    <h1>Compression</h1>
+    <pre>
+      left: <span id="left"></span>
+      right: <span id="right"></span>
+      distance: <span id="distance"></span>
+      skew: <span id="skew"></span>
+    </pre>
+</body>
+
+<style>* {
+        -webkit-app-region: drag;
+    }
+
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    flex-direction: column;
+    overflow: hidden;
+}
+    #bar, video, .dg.ac, .dg.ac + div {
+        display: none !important;
+    }
+
+    canvas {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        top: 100px;
+        z-index: -1;
+    }
+
+
+
+@font-face {
+	src: url('https://res.cloudinary.com/dr6lvwubh/raw/upload/v1529908256/CompressaPRO-GX.woff2');
+	font-family:'Compressa VF';
+	font-style: normal;
+}
+
+@font-face {
+	src: url('./CoFo_Peshka_Variable_V0.1.7a2b5461.woff2');
+	font-family:'CoFo Peshka';
+	font-style: normal;
+}
+
+h1 {
+    font-family: 'CoFo Peshka';
+    font-size: 160px;
+    margin: auto;
+    width: max-content;
+    transition: all 0.1s;
+    position: absolute;
+}
+
+#bar {
+    background: black;
+    height: 50px;
+    margin: auto;
+}
+
+canvas {
+    margin: auto;
+    display: flex;
+}
+
+pre {
+    align-self: flex-start;
+    position: absolute;
+    left: 10px;
+    bottom: 5px;
+}
+
+pre {
+    font-family: Inconsolata, Fira Mono, monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    color: gray;
+    opacity: 0.2;
+    transition: all .1s;
+}
+
+pre span {
+    color: #333;
+}
+
+pre:hover {
+    opacity: 1;
+}</style>
+
+</html>
