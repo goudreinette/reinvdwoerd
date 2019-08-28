@@ -1,0 +1,141 @@
+<script src="./lodash.js"></script>
+<script src="./vue.js"></script>
+<script src="./intersect.js"></script>
+
+
+<div id="happystocks">
+    <div class="pager">
+        <div v-for="(page, i) in pages" class="page" 
+             v-observe-visibility="{
+                 callback: (isVisible, entry) => visibilityChanged(isVisible, i),
+                 throttle: 500,
+             }">
+        </div>
+        <div class="page end"></div>
+    </div>
+    
+    <div class="indicator">
+        <div class="dot" 
+             v-for="(page, i) in pages"
+             :class="{active: i == currentIndex}">
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+Vue.use(VueObserveVisibility)
+
+
+new Vue({
+    el: '#happystocks',
+    data: {
+        pages: [],
+        currentIndex: 0
+    },
+    mounted() {
+        // Create the pages
+        this.pages = _.times(4, _.constant({
+            
+        }))
+    },
+    methods: {
+        visibilityChanged(isVisible, i) {
+            if (isVisible) {
+                console.log(isVisible, i)
+                this.currentIndex = i
+            }
+        }
+    }
+})
+
+</script>
+
+
+<style>
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.pager {
+    padding-top: 30px;
+    display: flex;
+    width: 100vw;
+    height: 100%;
+    overflow-x: scroll;
+    flex-shrink: 0;
+    scroll-snap-type: x mandatory;
+    flex: 1;
+    /* padding-right: 100px; */
+}
+
+#happystocks {
+    display: grid;
+    height: 100vh;
+    grid-template-rows: 90vh auto;
+}
+
+.page {
+    border: 1px solid #e8e8e8;
+    height: 80vh;
+    border-radius: 25px;
+    width: 80vw;
+    flex-shrink: 0;
+    margin: 0 100px;
+    box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.1);
+    scroll-snap-align: center;
+}
+
+.page:first-child {
+    margin-left: 200px;
+}
+
+.page:last-child {
+    margin-right: 200px !important;
+}
+
+.page.end {
+    width: 0;
+    opacity: 0;
+    scroll-snap-align: none;
+}
+
+
+
+/* Indicators */
+.indicator {
+    display: flex;
+    height: 50px;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.indicator .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin: 0 5px;
+    background: #eee;
+    transition: all .3s;
+}
+
+.indicator .dot.active {
+    background: #828282;
+    width: 16px;
+    border-radius: 4px;
+}
+
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+    -webkit-border-radius: 6px;
+}
+</style>
