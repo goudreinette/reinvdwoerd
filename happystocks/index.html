@@ -1,15 +1,17 @@
 <script src="./lodash.js"></script>
 <script src="./vue.js"></script>
 <script src="./intersect.js"></script>
+<script src="https://unpkg.com/dom-locky@1.0.0/umd/index.js"></script>
+
 <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name=apple-mobile-web-app-capable content=yes>
 <meta name=apple-mobile-web-app-status-bar-style content=default> 
 
 <div id="happystocks">
     <transition-group name="list-complete" tag="div" class="pager">
-        <div v-for="(page, i) in [...pages, {type: 'new'}]" 
+        <div v-for="(page, i) in [...pages, {type: 'new', key: 'new'}]" 
             class="page" 
-            :key="i"
+            :key="page.key"
             :class="{new: page.type == 'new'}"
             v-observe-visibility="{
                 callback: (isVisible, entry) => visibilityChanged(isVisible, i),
@@ -56,6 +58,9 @@ new Vue({
         // Create the pages
         for (let index = 0; index < 4; index++)
             this.addPage()
+
+        locky.lockyOn('#happystocks', extraProps);
+
     },
 
     methods: {
@@ -67,7 +72,7 @@ new Vue({
         },
 
         addPage() {
-            this.pages.push({})
+            this.pages.push({key: _.uniqueId()})
         }
     }
 })
@@ -86,6 +91,7 @@ body {
     height: 100vh;
     font-size: 18px;
     --warm-grey: #a09b96;
+    overflow: hidden;
 }
 
 .pager {
@@ -196,7 +202,7 @@ body {
 
 /* Transition */
 .page {
-    transition: all 1s;
+    transition: all .5s;
 }
 
 .list-complete-enter, .list-complete-leave-to {
