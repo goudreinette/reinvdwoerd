@@ -1,0 +1,161 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=orvLkSVr"></script>
+<script src="rita-full.min.js"></script>
+
+<!-- @click="changeWord()" -->
+<div id="inside-out" :style="{background: `hsla(${baseHue},50%,50%, 0.2)`}">
+    <transition appear name="whole-word">
+        <h1 v-if="!transitioning">
+            <transition-group class="list" tag="div" name="list" :class="{swapped: isSwapped}">
+                <span v-for="(x, i) in word"
+                      :key="x.key"
+                      class="list-complete-item"
+                      :style="{color: `hsl(${baseHue + (x.distToCenter / word.length * 80)},50%,50%)`}">
+                    {{x.char}}
+                </span>
+            </transition-group>
+        </h1>
+    </transition>
+</div>
+
+<script>
+    $insideOut = new Vue({
+        el: '#inside-out',
+        data: {
+            word: '',
+            baseHue: 300,
+            transitioning: false,
+            words: [
+                'assignment',
+                'inside-out',
+                'Stephan'
+            ]
+        },
+
+        mounted() {
+            this.newWord()
+        },
+
+        methods: {
+            changeWord() {
+                this.transitioning = true
+                setTimeout(() => {
+                    this.transitioning = false
+                    this.newWord()
+                }, 1000)
+            },
+
+            turnCurrentWordInsideOut() {
+                this.isSwapped = true
+                let chunks = null
+
+                if (this.word.length % 2 == 0) {
+                    // In case it's even
+                    chunks = _.chunk(this.word, this.word.length / 2)
+                } else {
+                    // In case it's uneven
+                    let firsthalf = this.word.slice(0, this.word.length / 2)
+                    let center = this.word[Math.floor(this.word.length / 2)]
+                    let lasthalf = this.word.slice(this.word.length / 2 + 1)
+                    chunks = [lasthalf, [center], firsthalf]
+                }
+
+                let reversed = chunks.flatMap(c => c.reverse())
+                this.word = reversed
+
+                setTimeout(() => {
+                    this.playWord()
+                }, 2000)
+            },
+
+            newWord() {
+                this.baseHue = Math.random() * 280
+                let word = RiTa.randomWord()
+                let center = word.length / 2
+                this.word = word.split('').map((char, i) => {
+                    return { char, key: Math.random(), distToCenter: Math.abs(center - i) }
+                })
+
+                this.playWord()
+
+                setTimeout(() => {
+                    this.turnCurrentWordInsideOut()
+                }, 3000)
+            },
+
+
+            playWord() {
+                responsiveVoice.speak(this.rawWord, "US English Male", {pitch: 0.6})
+            }
+        },
+        computed: {
+            rawWord() {
+                let wordSpeakable = this.word.map(w => w.char).join('')
+                console.log(wordSpeakable)
+                return wordSpeakable
+            }
+        }
+    })
+    
+    // addEventListener('keydown', () => {
+    //     $insideOut.changeWord()
+    // })
+
+    setInterval(() => {
+        $insideOut.changeWord()
+    }, 9000)
+
+
+
+</script>
+
+
+<style>
+    body {
+        margin: 15px;
+    }
+
+    #inside-out {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        font-family: "Neue Haas Unica W1G";
+        font-size: 64px;
+        transition: background-color .8s;
+    }
+
+    h1 {
+        margin-bottom: 10%;
+        transition: all 1s;
+    }
+
+    .whole-word-enter-active {
+        transition: all 1s;
+    }
+    .whole-word-leave-active {
+        transition: all .8s;
+    }
+    .whole-word-enter, .whole-word-leave-to {
+        transform: translateY(100px) scale(0.9);
+        opacity: 0;
+    }
+
+
+     .list-complete-item {
+        transition: all 1.5s;
+        display: inline-block;
+    }
+
+     .list.list-complete-item {
+         transition: none 1.5s;
+     }
+
+
+     .list-move {
+        opacity: .5;
+        transform: scale(1.2);
+    }
+</style>
