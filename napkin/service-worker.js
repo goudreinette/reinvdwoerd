@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.855d7e54b99289903a0413ac6ef7736e.js"
+  "/precache-manifest.3f35d6434909e22686a829bffcdaa43d.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "napkin-pwa"});
