@@ -1,0 +1,12 @@
+<body></body>
+
+<script>
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(pos => {
+            document.body.innerHTML = `Latitude: ${pos.coords.latitude} <br>
+                                       Longitude ${pos.coords.longitude}`
+        });
+    } else {
+        document.body.innerHTML = "Geolocation is not supported by this browser."
+    }
+</script>
