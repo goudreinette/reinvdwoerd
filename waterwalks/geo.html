@@ -1,12 +1,14 @@
-<body></body>
+<div id="location"></div>
 
 <script>
+    $loc = document.querySelector('location')
+
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(pos => {
-            document.body.innerHTML = `Latitude: ${pos.coords.latitude} <br>
-                                       Longitude ${pos.coords.longitude}`
+            $loc.innerHTML = `Latitude: ${pos.coords.latitude} <br>
+                              Longitude ${pos.coords.longitude}`
         });
     } else {
-        document.body.innerHTML = "Geolocation is not supported by this browser."
+        $loc.innerHTML = "Geolocation is not supported by this browser."
     }
 </script>
