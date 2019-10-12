@@ -4,11 +4,18 @@
     $loc = document.querySelector('#location')
 
     if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(pos => {
-            $loc.innerHTML = `Latitude: ${pos.coords.latitude} <br>
-                              Longitude ${pos.coords.longitude}`
-        });
+        navigator.geolocation.watchPosition(printPosition, printError);
+        navigator.geolocation.getCurrentPosition(printPosition, printError);
     } else {
         $loc.innerHTML = "Geolocation is not supported by this browser."
+    }
+
+    function printPosition(pos) {
+        $loc.innerHTML = `Latitude: ${pos.coords.latitude} <br>
+                          Longitude: ${pos.coords.longitude}`
+    }
+
+    function printError(error) {
+        $loc.innerHTML = error
     }
 </script>
