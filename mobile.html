@@ -1,0 +1,315 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>WaterWalks</title>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/2.0.1/mapbox-gl.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.js"></script>
+</head> 
+
+
+<body>
+    <div id="map" style="height: 100vh; width: 100vw; position: fixed; top: 0; left: 0"></div>
+
+    
+
+    <style>
+        @font-face {
+            src: url("/wp-content/uploads/2020/05/CentraNo2-Book.woff");
+            font-family: Centra;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Centra;
+            --darkblue: #0d1018ce;
+            --darkblue-transparent: #0d101860;
+            margin: 0;
+        }
+
+        /* branding */
+        .mapboxgl-ctrl-bottom-right {
+            font-family: futura-pt;
+        }
+
+        .mapboxgl-ctrl.mapboxgl-ctrl-attrib {
+            background-color: transparent;
+        }
+
+        .mapboxgl-ctrl-attrib a, .mapboxgl-ctrl-attrib a:hover {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .mapboxgl-ctrl-logo {
+            opacity: 0.5;
+        }
+
+        /* lity */
+        .lity {
+            /* background: #051932; */
+            background: var(--darkblue-transparent);
+            backdrop-filter: blur(10px) !important;
+            z-index: 2;
+            width: 100vw;   
+            height: 100vh;
+            transition: opacity .5s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .lity-wrap {
+            padding: 20px;
+        }
+
+        .lity-container::after {
+            display: flex;
+            padding-top: 20px;
+            content: 'We selected live streaming cameras to experience our rivers and waterways any time of the day, throughout the seasons. Do you operate a live streaming camera along the water? If so we would be very happy to include it within our growing Waerwalks database. Please contact us at info@ludwiglive.nl';
+            color: white;
+        }
+
+
+        .lity-close {
+            position: absolute;
+            /* right: -40; */
+            top: -40px !important;
+            cursor: pointer;
+        }
+
+        .explainer {
+            color: white;
+            max-width: 560px;
+            margin-top: 25px;
+        }
+        .explainer a {
+            color: white !important;
+        }
+
+        #livestream-lightbox.open {
+            opacity: 1;
+        }
+
+        #livestream-lightbox:not(.open) {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .iframe-container {
+            width: 100%;
+            height: 0;
+            position: relative;
+            padding-top: 56.25%;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            position: absolute;
+        }
+
+  
+        /* popup */
+        .mapboxgl-popup {
+            max-width: 350px !important;
+        }
+
+        .mapboxgl-popup .mapboxgl-popup-close-button {
+            display: none;
+        }
+
+        .mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+            border-right-color: var(--text-color);
+        }
+        .mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+            border-left-color: var(--text-color);
+        }
+        .mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+            border-bottom-color: var(--text-color);
+        }
+        .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+            border-top-color: var(--text-color);
+        }
+
+        .mapboxgl-popup .mapboxgl-popup-content {
+            font-family: Centra;
+            border-left: 1px solid var(--text-color);
+            font-size: 13px;
+            padding: 5 10 !important;
+            background: #0d1018ce !important;
+            backdrop-filter: blur(10px) !important;
+            color: white;
+        }
+
+        .mapboxgl-popup .mapboxgl-popup-content * {
+            color: white;
+            text-decoration: none;
+            font-size: 100%;
+        }
+
+        .walkers {
+            opacity: .6;
+            font-size: 80% !important;
+            margin-top: -3px;
+            display: none;
+        }
+
+        .marker {
+            transition: opacity .5s;
+        }
+
+        .marker.start, .marker.end {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+        }
+     
+
+        .marker.disabled {
+            opacity: .5;
+            cursor: unset !important;
+        }
+
+        .marker.start {
+            background: #f7c500;
+        }
+
+        .marker.end {
+            background: var(--text-color);
+        }
+
+        .marker.hidden {
+            opacity: 0;
+        }
+
+        .marker:not(.start):not(.end) {
+            /*background-color: var(--text-color);*/
+            width: 20px;
+            height: 20px;
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 1.1px 1.5px rgba(0, 0, 0, 0.053), 0 2.7px 3.7px rgba(0, 0, 0, 0.077), 0 5px 6.9px rgba(0, 0, 0, 0.095), 0 8.9px 12.3px rgba(0, 0, 0, 0.113), 0 16.7px 23px rgba(0, 0, 0, 0.137), 0 40px 55px rgba(0, 0, 0, 0.19);
+        }
+
+        .marker .inner {
+            width: 14px;
+            height: 14px;
+            border-radius: inherit;
+        }
+
+
+    </style>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoicmVpbnZkd29lcmQiLCJhIjoiY2sxNHN6aWIzMGxhdjNjbTloNTA1cm5xZyJ9.KvfYNJxIEIC6bugBFgp_Pw'
+        const map = new mapboxgl.Map({
+            style:     'mapbox://styles/reinvdwoerd/ckcjb7bux3uro1ir0qcehll51',
+            center:    [5.252000135840376, 52.27755613211434],
+            zoom:      7.1,
+            pitch:     18.3023,
+            bearing:   0,
+            container: 'map',
+            antialias: true
+        })
+
+        firebase.initializeApp({
+            apiKey: "AIzaSyC7jA6BBAoaNhcdq4E8SXtprNJ1_7Nu8hY",
+            authDomain: "waterwalks-next.firebaseapp.com",
+            databaseURL: "https://waterwalks-next.firebaseio.com",
+            projectId: "waterwalks-next",
+            storageBucket: "waterwalks-next.appspot.com",
+            messagingSenderId: "408811102669",
+            appId: "1:408811102669:web:926e4e3b92a1b81b346484",
+            measurementId: "G-YD1ZH63HJN"
+        });
+
+
+        const db = firebase.firestore();
+
+        const postGeoJSONFeatures = []
+        const posts = []
+
+        map.on('load', async () => {
+            db.collection("posts")
+                .orderBy("timestamp").onSnapshot(snapshot => {
+                snapshot.docChanges().forEach(change => {
+                    const post = {
+                        ...change.doc.data(),
+                        id: change.doc.id
+                    }
+
+                    if (change.type === "added") {
+                        console.log(`%c${post.type} added`, "color: #fe7f50 font-weight: bold")
+                        posts.push(post)  // Push to end
+
+                        postGeoJSONFeatures.push({
+                            type: "Feature",
+                            geometry: {
+                                type: "Point",
+                                coordinates: [post.geopoint.longitude, post.geopoint.latitude]
+                            },
+                            properties: {
+                                icon: `${post.type} - #ecc156`, //#f16664
+                                type: post.type,
+                                userEmail: post.userEmail,
+                                tags: post.tags ? post.tags.join(" ") : [],
+                                // index,
+                                // id,
+                                t: post.timestamp.seconds
+                            }
+                        });
+
+                        (map.getSource('posts')).setData({
+                            "type":     "FeatureCollection",
+                            "features": postGeoJSONFeatures
+                        });
+                    }
+                })
+            })
+
+            
+            // Livestreams
+            map.addLayer({
+                id: "posts",
+                type: "symbol",
+                source: {
+                    "type": "geojson",
+                    "data": {
+                        "type": "FeatureCollection",
+                        "features": postGeoJSONFeatures
+                    }
+                },
+
+                layout: {
+                    "icon-image": "{icon}",
+                    "icon-size": 0.3,
+                    "icon-allow-overlap": true,
+                },
+
+                paint: {
+                    'icon-color': ['get', 'color'],
+                }
+            })
+        })
+        
+        const marker = new mapboxgl.Marker($(`<div class="marker">
+                <div class="inner" style="background-color: white">
+                    <div class="circle" style="background-color: white;"></div>
+                    <div class="circle pulse" style="background-color: white;"></div>
+                    <div class="name"></div>
+                </div>
+             </div>`)[0])
+            .setLngLat([0, 0])
+            .addTo(map)
+
+    </script>
+</body>
