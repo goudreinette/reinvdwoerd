@@ -478,5 +478,20 @@
             </div>`
         }
 
+
+        map.on('click', 'posts', e => {
+            const {id} = e.features[0].properties
+            const post = posts.find(post => post.id == id)
+
+            console.log(id)
+            if (post) {
+                if (post.type == 'image-360') {
+                    this.setState({current360ImageUrl: post.url})
+                } else {
+                    showPopup(map, post.type, post)
+                }
+            }
+        })
+
     </script>
 </body>
