@@ -313,23 +313,23 @@
 
 
             
-        function showPopup(map: Map, type: PostType, post: Post, person: Person, onDone: DoneCallback = () => null) {
+        function showPopup(map, type, post, person, onDone) {
             let html
             // debugger
-            const coordinates: [number, number] = [post.geopoint.longitude, post.geopoint.latitude]
+            const coordinates = [post.geopoint.longitude, post.geopoint.latitude]
 
 
             if (type === 'image')
-                html = imagePopup(post as Image, person)
+                html = imagePopup(post, person)
             if (type === 'video')
-                html = videoPopup(post as Image, person)
+                html = videoPopup(post, person)
             if (type === 'measurement')
-                html = measurementPopup(post as Measurement, person)
+                html = measurementPopup(post, person)
             if (type === 'note')
-                html = notePopup(post as Note, person)
+                html = notePopup(post, person)
 
             if (type === 'recording') {
-                const r = post as Recording
+                const r = post
                 const sound = new Howl({
                     src: [r.url],
                     volume: 0.5,
@@ -338,7 +338,7 @@
                     const $popup = new mapboxgl.Popup({
                         anchor: 'bottom',
                         offset: 20
-                    }).setLngLat(coordinates).setHTML(recordingPopup(r as Recording, sound.duration(), person))
+                    }).setLngLat(coordinates).setHTML(recordingPopup(r, sound.duration(), person))
 
                     $popup.on('open', () => {
                         sound.play()
@@ -364,7 +364,7 @@
         }
 
 
-        function sharedPopupHtml ({ timestamp, geopoint, tags , person) => {
+        function sharedPopupHtml ({ timestamp, geopoint, tags, person}) {
             console.log(geopoint);
 
             const date = new Date(timestamp.seconds * 1000);
@@ -389,7 +389,7 @@
 
 
 
-        export const imagePopup = (image, person) => {
+         const imagePopup = (image, person) => {
             const imageText = image.text != null
                 ? `<p class="text">${image.text}</p>`
                 : ''
@@ -404,7 +404,7 @@
         }
 
 
-        export const videoPopup = (video, person) => {
+         const videoPopup = (video, person) => {
             const videoText = video.text != null
                 ? `<p class="text">${video.text}</p>`
                 : ''
@@ -421,7 +421,7 @@
 
 
 
-        export const measurementPopup = (measurement, person) => {
+         const measurementPopup = (measurement, person) => {
             return `<div class="inner">
                 ${sharedPopupHtml(measurement, person)}
                 
@@ -456,7 +456,7 @@
         }
 
 
-        export const notePopup = (note, person) => {
+         const notePopup = (note, person) => {
             return `<div class="inner note">
                 ${sharedPopupHtml(note, person)}
                 <p class="text">${note.text}</p>
@@ -464,7 +464,7 @@
         }
 
 
-        export const recordingPopup = (recording: Recording, duration: Number, person: Person) => {
+        const recordingPopup = (recording, duration, person) => {
 
             return `<div class="inner recording">
                 <div class="progress" style="animation-duration: ${duration}s;"></div>
