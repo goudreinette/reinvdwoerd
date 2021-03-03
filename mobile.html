@@ -214,7 +214,7 @@
         const map = new mapboxgl.Map({
             style:     'mapbox://styles/reinvdwoerd/ckcjb7bux3uro1ir0qcehll51',
             center:    [5.252000135840376, 52.27755613211434],
-            zoom:      7.1,
+            zoom:      11.1,
             pitch:     18.3023,
             bearing:   0,
             container: 'map',
@@ -310,6 +310,173 @@
              </div>`)[0])
             .setLngLat([0, 0])
             .addTo(map)
+
+
+            
+        function showPopup(map: Map, type: PostType, post: Post, person: Person, onDone: DoneCallback = () => null) {
+            let html
+            // debugger
+            const coordinates: [number, number] = [post.geopoint.longitude, post.geopoint.latitude]
+
+
+            if (type === 'image')
+                html = imagePopup(post as Image, person)
+            if (type === 'video')
+                html = videoPopup(post as Image, person)
+            if (type === 'measurement')
+                html = measurementPopup(post as Measurement, person)
+            if (type === 'note')
+                html = notePopup(post as Note, person)
+
+            if (type === 'recording') {
+                const r = post as Recording
+                const sound = new Howl({
+                    src: [r.url],
+                    volume: 0.5,
+                }).once('load', () => {
+                    console.log(sound.duration())
+                    const $popup = new mapboxgl.Popup({
+                        anchor: 'bottom',
+                        offset: 20
+                    }).setLngLat(coordinates).setHTML(recordingPopup(r as Recording, sound.duration(), person))
+
+                    $popup.on('open', () => {
+                        sound.play()
+                    })
+
+                    $popup.on('close', () => {
+                        sound.stop()
+                    })
+
+                    $popup.addTo(map)
+                    if (onDone)
+                        onDone($popup)
+                })
+            } else {
+                const $popup = new mapboxgl.Popup({ anchor: 'bottom', offset: 20 })
+                    .setLngLat(coordinates)
+                    .setHTML(html)
+                    .addTo(map);
+
+                if (onDone)
+                    onDone($popup)
+            }
+        }
+
+
+        function sharedPopupHtml ({ timestamp, geopoint, tags , person) => {
+            console.log(geopoint);
+
+            const date = new Date(timestamp.seconds * 1000);
+            return `
+                <span class="label">Time</span>
+                <span class="value">${date && dateFormat(date, 'h:MM:ss TT')}</span>
+                
+                <span class="label">Date</span>
+                <span class="value">${date && dateFormat(date, 'mmmm dS, yyyy')}</span>
+                
+                <span class="label">Location</span>
+                <span class="value">${geopoint.latitude.toFixed(3)}° N, <br> ${geopoint.longitude.toFixed(3)}° E</span>
+                
+                <span class="label">Walker</span>
+                <span class="value" style="color: ${person.color};">${person.nameOverride ?? person.name}</span>
+                
+                <span class="label">Tags</span>
+                <span class="value">${tags ? tags.join(', ') : ''}</span>
+            `
+        }
+
+
+
+
+        export const imagePopup = (image, person) => {
+            const imageText = image.text != null
+                ? `<p class="text">${image.text}</p>`
+                : ''
+
+            return `
+                <div class="inner image note">
+                    ${sharedPopupHtml(image, person)}
+                    <img src="${image.thumbnailUrl}">
+                    ${imageText}
+            </div>
+            `
+        }
+
+
+        export const videoPopup = (video, person) => {
+            const videoText = video.text != null
+                ? `<p class="text">${video.text}</p>`
+                : ''
+
+            return `
+                <div class="inner image note">
+                    ${sharedPopupHtml(video, person)}
+                    <video src="${video.url}" autoplay controls></video>
+                    ${videoText}
+            </div>
+            `
+        }
+
+
+
+
+        export const measurementPopup = (measurement, person) => {
+            return `<div class="inner">
+                ${sharedPopupHtml(measurement, person)}
+                
+                <span class="label">River</span>
+                <span class="value">Amstel</span>
+                
+                <span class="label">Rainfall</span>
+                <span class="value">${measurement.rainfall || '-'}</span>
+                
+                <span class="label">Air</span>
+                <span class="value">${measurement.air || '-'} °C</span>
+                
+                <span class="label">Water</span>
+                <span class="value">${measurement.water || '-'} °C</span>
+                
+                <span class="label">pH</span>
+                <span class="value">${measurement.ph || '-'}</span>
+                
+                <span class="label">Cond. EC</span>
+                <span class="value">${measurement.condEC || '-'} µS/cm</span>
+                
+                <span class="label">TH</span>
+                <span class="value">${measurement.TH || '-'} mm</span>
+                
+                <span class="label">Color</span>
+                <span class="value">${measurement.color || '-'}</span>
+                
+                <span class="label">Smell</span>
+                <span class="value">${measurement.smell || '-'}</span>
+                <p></p>
+            </div>`
+        }
+
+
+        export const notePopup = (note, person) => {
+            return `<div class="inner note">
+                ${sharedPopupHtml(note, person)}
+                <p class="text">${note.text}</p>
+            </div>`
+        }
+
+
+        export const recordingPopup = (recording: Recording, duration: Number, person: Person) => {
+
+            return `<div class="inner recording">
+                <div class="progress" style="animation-duration: ${duration}s;"></div>
+                <lottie-player 
+            src="https://assets7.lottiefiles.com/packages/lf20_98rTw9.json"  background="transparent"  speed="1"  style="width: 150px; height: 150px;"  loop autoplay >
+        </lottie-player>
+                <span class="label">Duration</span>
+                <span class="value">${duration.toFixed(2)}s</span>
+                ${sharedPopupHtml(recording, person)}
+                <!--  Audio player here...   -->
+            </div>`
+        }
 
     </script>
 </body>
